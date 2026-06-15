@@ -168,7 +168,7 @@ class PersonalDataset(torch.utils.data.Dataset):
             inp_str += f"[Target Business Categories]: {', '.join(categories)}\n"
 
             # ======== 社交图嵌入 ========
-            inp_str += "[Social Graph Embedding]: <social_graph_token_start>[SOCIAL_GRAPH_TOKEN]<social_graph_token_end>\n"
+            inp_str += "[Social Graph Embedding]: <graph_token_start>[SOCIAL_GRAPH_TOKEN]<graph_token_end>\n"
 
             # ======== 好友评论部分 ========
             inp_str += "[Reviews from User's Friends]:\n"

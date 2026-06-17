@@ -4,8 +4,8 @@ import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 
 def kernel_matrix(x, sigma):
-    gram = torch.mm(x, x.t())
-    return torch.exp((gram - 1) / sigma)
+    dist_sq = torch.cdist(x, x, p=2).pow(2)
+    return torch.exp(-dist_sq / (2 * sigma ** 2))
 
 def hsic(Kx, Ky, m):
     Kxy = torch.mm(Kx, Ky)
@@ -152,8 +152,6 @@ class SocialGCN_GBSR(nn.Module):
         m = emb_before.size(0)
         if m < 2:
             return torch.tensor(0.0, device=emb_before.device)
-        e1 = F.normalize(emb_before, p=2, dim=1)
-        e2 = F.normalize(emb_after,  p=2, dim=1)
-        Kx = kernel_matrix(e1, self.gib_sigma)
-        Ky = kernel_matrix(e2, self.gib_sigma)
+        Kx = kernel_matrix(emb_before, self.gib_sigma)
+        Ky = kernel_matrix(emb_after, self.gib_sigma)
         return hsic(Kx, Ky, m)

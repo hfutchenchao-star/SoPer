@@ -34,12 +34,12 @@ class PersonalDataset(torch.utils.data.Dataset):
         social_dataset = SocialGraphDataset(SOCIAL_GRAPH_PATH)
 
         system_prompt = (
-            f"Given the user's social graph information, the user's one past review, and several past reviews from the user's friends "
-            f"(each review including review stars, review business categories, review text, review embeddings and each friend's review including a weight), "
-            f"as well as the output review stars and output review business categories, "
-            f"generate a personalized business review text for the user. You should consider these weights, where higher-weight friends' reviews have a greater influence on the user's preferences when generating the review text.\n"
-            f"Note: [Social Graph Embedding] denotes a soft prompt embedding of the user's social structure, and [Review Embedding] denotes a soft prompt embedding of the review text. "
-            f"[Social Graph Embedding] and [Review Embedding] should serve as semantic hints to guide the generation of personalized business reviews.\n"
+            f"Given name and categories of the target item, along with the graph-aware soft prompt of the user, several past reviews from the user's friends and the user's one past review"
+            f" (each review including item name, item categories, review stars, review text, review embeddings and each friend's review including a friend influence score), "
+            f"as well as the output review stars, "
+            f"generate a personalized review text for the target item from the user's perspective. You should consider the friend influence scores, where friends with higher scores should have a stronger impact on the generated review.\n"
+            f"Note: [Social Graph Embedding] denotes a graph-aware soft prompt projected from the refined user representation, and [Review Embedding] denotes a soft prompt embedding of the review text. "
+            f"[Social Graph Embedding] and [Review Embedding] should serve as semantic hints to guide the generation of personalized item reviews.\n"
         )
 
         self.pt = Qwen2PromptTemplate(system_prompt)

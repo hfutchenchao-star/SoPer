@@ -146,7 +146,12 @@ class DEPModel(Qwen2ForCausalLM):
                 edge_mask_raw = g_res["edge_mask"]  
 
                 center_emb_mask = emb_masked[center_local].unsqueeze(0)
-                hsic_loss = self.gcn.compute_hsic_loss(emb_original, emb_masked)
+                num_nodes = g_data.x.size(0)
+                friends_order = [i for i in range(num_nodes) if i != center_local]
+                hsic_loss = self.gcn.compute_hsic_loss(
+                    emb_original[friends_order],
+                    emb_masked[friends_order],
+                )
                 hsic_loss_total += hsic_loss
                 num_graphs += 1
 
@@ -155,8 +160,6 @@ class DEPModel(Qwen2ForCausalLM):
 
                 ei = g_data.edge_index.to(self.device)
                 src, dst = ei[0], ei[1]
-                num_nodes = g_data.x.size(0)
-                friends_order = [i for i in range(num_nodes) if i != center_local]
 
                 weights_in_order = []
                 for i in friends_order:
@@ -198,13 +201,16 @@ class DEPModel(Qwen2ForCausalLM):
             edge_mask_raw = g_res["edge_mask"]  
 
             center_emb_mask = emb_masked[center_local].unsqueeze(0)
-            hsic_loss_avg = self.gcn.compute_hsic_loss(emb_original, emb_masked)
+            num_nodes = g_data.x.size(0)
+            friends_order = [i for i in range(num_nodes) if i != center_local]
+            hsic_loss_avg = self.gcn.compute_hsic_loss(
+                emb_original[friends_order],
+                emb_masked[friends_order],
+            )
             graph_emb = self.gcn.llm_projector(center_emb_mask)
 
             ei = g_data.edge_index.to(self.device)
             src, dst = ei[0], ei[1]
-            num_nodes = g_data.x.size(0)
-            friends_order = [i for i in range(num_nodes) if i != center_local]
 
             weights_in_order = []
             for i in friends_order:

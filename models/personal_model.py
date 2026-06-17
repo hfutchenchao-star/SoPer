@@ -149,9 +149,8 @@ class DEPModel(Qwen2ForCausalLM):
                 emb_masked = g_res["emb_after"]
                 edge_mask_raw = g_res["edge_mask"]  
 
-                center_emb_ori = emb_original[center_local].unsqueeze(0)
                 center_emb_mask = emb_masked[center_local].unsqueeze(0)
-                hsic_loss = self.gcn.compute_hsic_loss(center_emb_ori, center_emb_mask)
+                hsic_loss = self.gcn.compute_hsic_loss(emb_original, emb_masked)
                 hsic_loss_total += hsic_loss
                 num_graphs += 1
 
@@ -202,9 +201,8 @@ class DEPModel(Qwen2ForCausalLM):
             emb_masked = g_res["emb_after"]  
             edge_mask_raw = g_res["edge_mask"]  
 
-            center_emb_ori = emb_original[center_local].unsqueeze(0)
             center_emb_mask = emb_masked[center_local].unsqueeze(0)
-            hsic_loss_avg = self.gcn.compute_hsic_loss(center_emb_ori, center_emb_mask)
+            hsic_loss_avg = self.gcn.compute_hsic_loss(emb_original, emb_masked)
             graph_emb = self.gcn.llm_projector(center_emb_mask)
 
             ei = g_data.edge_index.to(self.device)

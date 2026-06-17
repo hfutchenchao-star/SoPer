@@ -164,8 +164,8 @@ class PersonalDataset(torch.utils.data.Dataset):
                 round_idx += 1
 
             # ======== 目标商家信息 ========
-            inp_str = f"[Target Business Name]: {name}\n"
-            inp_str += f"[Target Business Categories]: {', '.join(categories)}\n"
+            inp_str = f"[Target Item Name]: {name}\n"
+            inp_str += f"[Target Item Categories]: {', '.join(categories)}\n"
 
             # ======== 社交图嵌入 ========
             inp_str += "[Social Graph Embedding]: <graph_token_start>[SOCIAL_GRAPH_TOKEN]<graph_token_end>\n"
@@ -183,8 +183,8 @@ class PersonalDataset(torch.utils.data.Dataset):
                 inp_str += (
                     f"- [Friend Review {j + 1}]:\n"
                     f"  - [Friend Influence Score]: 1.0\n"
-                    f"  - [Review Business Name]: {friend_bname}\n"
-                    f"  - [Review Business Categories]: {friend_bcats}\n"
+                    f"  - [Review Item Name]: {friend_bname}\n"
+                    f"  - [Review Item Categories]: {friend_bcats}\n"
                     f"  - [Review Stars]: {fr['stars']}\n"
                     f"  - [Review Text]: {friend_text}\n"
                     f"  - [Review Embedding]: <friend_token_start>[FRIEND_TOKEN_{j}]<friend_token_end>\n"
@@ -199,8 +199,8 @@ class PersonalDataset(torch.utils.data.Dataset):
                     "business_attributes_text") or "No detailed business attributes are available for this place."
 
                 inp_str += (
-                    f"- [Review Business Name]: {user_bname}\n"
-                    f"- [Review Business Categories]: {user_bcats}\n"
+                    f"- [Review Item Name]: {user_bname}\n"
+                    f"- [Review Item Categories]: {user_bcats}\n"
                     f"- [Review Stars]: {user_review['stars']}\n"
                     f"- [Review Text]: {user_text}\n"
                     f"- [Review Embedding]: <user_token_start>[USER_TOKEN_0]<user_token_end>\n"

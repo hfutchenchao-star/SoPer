@@ -45,7 +45,7 @@ new_tokens = (
     [
         "<user_token_start>", "<user_token_end>",
         "<friend_token_start>", "<friend_token_end>",
-        "<social_graph_token_start>", "<social_graph_token_end>"
+        "<graph_token_start>", "<graph_token_end>"
     ]
 )
 llm_tokenizer.add_special_tokens({"additional_special_tokens": new_tokens})

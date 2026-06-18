@@ -34,7 +34,7 @@ class PersonalDataset(torch.utils.data.Dataset):
         social_dataset = SocialGraphDataset(SOCIAL_GRAPH_PATH)
 
         system_prompt = (
-            f"Given name and categories of the target item, along with the graph-aware soft prompt of the user, several past reviews from the user's friends and the user's one past review"
+            f"Given the name and categories of the target item, along with the graph-aware soft prompt of the user, several past reviews from the user's friends and one past review of the user"
             f" (each review including item name, item categories, review stars, review text, review embeddings and each friend's review including a friend influence score), "
             f"as well as the output review stars, "
             f"generate a personalized review text for the target item from the user's perspective. You should consider the friend influence scores, where friends with higher scores should have a stronger impact on the generated review.\n"
